@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body class="bg-dark">
+    <div class="container">
+      <br />
+      <div class="jumbotron">
+        <h1 class="display-4 text-center">Send Message</h1>
+        <br />
+        <input id="name" class="form-control" placeholder="Name" />
+        <br />
+        <textarea
+          id="message"
+          class="form-control"
+          placeholder="Your Message Here"
+        ></textarea>
+        <br />
+        <div class="text-center d-flex justify-content-around">
+          <button id="send" class="btn btn-success p-3 cursor-pointer">
+            Send
+          </button>
+          <button id="delete" class="btn btn-danger p-3 cursor-pointer">
+            Delete
+          </button>
+        </div>
+      </div>
+      <div
+        id="messages"
+        class="justify-content-md-center row text-center"
+      ></div>
+    </div>
+    <script>
+      const BASE = window.location.origin;
+      $(() => {
+        $("#send").click(() => {
+          sendMessage({
+            name: $("#name").val(),
+            message: $("#message").val(),
+          });
+          $(":input").val("");
+          $("#messages").empty();
+          getMessages();
+        });
+        function sendMessage(message) {
+          $.post(`${BASE}/messages`, message);
+        }
+        function getMessages() {
+          $.get(`${BASE}/messages`, (data) => {
+            data.forEach(addMessage);
+          });
+        }
+        function addMessage(message) {
+          $("#messages").append(`
+        <div id='message${message._id}' class= 'bg-primary text-white rounded m-3 p-2 d-inline text-center'>
+        <h4> ${message.name} </h4>
+        <p>  ${message.message} </p>
+        <button id="delete-${message._id}" class="btn btn-danger cursor-pointer" onclick="deleteMessage('${message._id}')">Delete</button>
+        </div>
+    `);
+        }
+        $("#delete").click(() => {
+          deleteMessages();
+          ":input".val("");
+        });
+        function deleteMessages() {
+          $.ajax({
+            url: `${BASE}/messages`,
+            method: "DELETE",
+            success: function () {
+              $("#messages").empty();
+              alert("Messages deleted successfully");
+            },
+          });
+        }
+        getMessages();
+      });
+      function deleteMessage(id) {
+        $.ajax({
+          url: `${BASE}/messages/${id}`,
+          method: "DELETE",
+          success: function () {
+            alert("Message deleted successfully");
+            $(`#message${id}`).remove();
+          },
+        });
+      }
+      var socket = io();
+      socket.on("message", addMessages);
+    </script>
+    <style>
+      .cursor-pointer {
+        cursor: pointer;
+      }
+    </style>
+  </body>
+</html>
