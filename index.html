@@ -53,7 +53,7 @@
       ></div>
     </div>
     <script>
-      const BASE = window.location.origin;
+      const origin = window.location.origin;
       $(() => {
         $("#send").click(() => {
           sendMessage({
@@ -65,10 +65,10 @@
           getMessages();
         });
         function sendMessage(message) {
-          $.post(`${BASE}/messages`, message);
+          $.post(`${origin}/messages`, message);
         }
         function getMessages() {
-          $.get(`${BASE}/messages`, (data) => {
+          $.get(`${origin}/messages`, (data) => {
             data.forEach(addMessage);
           });
         }
@@ -87,7 +87,7 @@
         });
         function deleteMessages() {
           $.ajax({
-            url: `${BASE}/messages`,
+            url: `${origin}/messages`,
             method: "DELETE",
             success: function () {
               $("#messages").empty();
@@ -99,7 +99,7 @@
       });
       function deleteMessage(id) {
         $.ajax({
-          url: `${BASE}/messages/${id}`,
+          url: `${origin}/messages/${id}`,
           method: "DELETE",
           success: function () {
             alert("Message deleted successfully");
