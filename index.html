@@ -25,6 +25,11 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body class="bg-dark">
+    <style>
+      .cursor-pointer {
+        cursor: pointer;
+      }
+    </style>
     <div class="container">
       <br />
       <div class="jumbotron">
@@ -110,10 +115,5 @@
       const socket = io();
       socket.on("message", addMessages);
     </script>
-    <style>
-      .cursor-pointer {
-        cursor: pointer;
-      }
-    </style>
   </body>
 </html>
