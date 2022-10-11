@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import messages from "./model/messages.js";
+import histories from "./model/histories.js";
 import route from "./routes/index.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -26,9 +26,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 route(app);
 
-app.get("/messages", (_, res) => {
-  messages.find({}, (_, messages) => {
-    res.send(messages);
+app.get("/histories", (_, res) => {
+  histories.find({}, (_, histories) => {
+    res.send(histories);
   });
 });
 

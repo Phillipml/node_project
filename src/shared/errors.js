@@ -5,9 +5,9 @@ export const errorsCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
-// Message Errors
-export const errorsMessage = {
-  ERR_GET_MESSAGE: "Erro ao obter mensagens",
-  ERR_SAVE_MESSAGE: "Erro ao salvar mensagem",
-  ERR_DELETE_MESSAGE: "Erro ao deletar mensagens",
+// history Errors
+export const errorshistory = {
+  ERR_GET_history: "Erro ao obter mensagens",
+  ERR_SAVE_history: "Erro ao salvar mensagem",
+  ERR_DELETE_history: "Erro ao deletar mensagens",
 };

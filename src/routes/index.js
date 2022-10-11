@@ -1,5 +1,5 @@
 import express from "express";
-import messages from "./messageRoutes.js";
+import histories from "./historyRoutes.js";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 
@@ -11,6 +11,6 @@ const route = (app) => {
   app.route("/").get((_, res) => {
     res.sendFile(path.join(index));
   });
-  app.use(express.json(), messages);
+  app.use(express.json(), histories);
 };
 export default route;
