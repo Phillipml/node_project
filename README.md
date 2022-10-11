@@ -11,5 +11,5 @@ This repo have my knowledgement about NodeJS.
 You need to install some dependencies after you clone my repo
 
 ```bash
-  npm install express mongoose nodemon path socket.io body-parser dotenv
+  npm install
 ```
